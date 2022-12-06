@@ -1,7 +1,8 @@
 import TweetShow from "./TweetShow";
 function TweetList({ tweets }) {
+  //console.log(tweets);
   const renderedTweets = tweets.map((tweet) => {
-    console.log(tweet);
+    //  console.log(tweet);
     return (
       <div key={tweet.id}>
         <TweetShow tweet={tweet} />;
