@@ -1,67 +1,31 @@
-import { useState } from "react";
-import TweetCreate from "./components/TweetCreate";
-import TweetList from "./components/TweetList";
-import uuid from "react-uuid";
-import { useEffect } from "react";
-import axios from "axios";
+
+import Home from "./components/Home";
+import Navigation from "./components/Navigation";
+import UserProfile from "./components/UserProfile";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function App() {
-  const url = `https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet`;
-  //every tweet created will be push to the array of tweet list
-  const [tweets, setTweets] = useState([]);
-  //push state down to control spinner depended on the fetch
-  const [isLoading, setIsLoading] = useState(false);
-  //
-  const [errCatch, setErrCatch]=useState(false);
+  const LOCAL_STORAGE_KEY = "tweets";
+  const [userName, setUserName] = useState(
+    localStorage.getItem(LOCAL_STORAGE_KEY)
+      ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+      : " "
+  );
 
-  ///
-  const getAllTweets = () => {
-    setIsLoading(true)
-    axios.get(url).then((data) => {
-      console.log(data.data);
-      setTweets(data.data.tweets);
-      setIsLoading(false)
-    });
-  };
-//making a request once when page load
   useEffect(() => {
-    getAllTweets();
-  }, []);
-
-  //user's creation--> enter to array
-  const createTweet = async (tweetContent) => {
-    try{
-      setIsLoading(true)
-      setErrCatch(false)
-    console.log("What the heell is this?", tweetContent);
-    const id = uuid();
-    const userName = "Danielle";
-    const createdDate = new Date().toISOString();
-    const newTweet = {
-      id,
-      content: tweetContent,
-      date: createdDate,
-      userName,
-    };
-    const updateTweets = [newTweet, ...tweets];
-    const res = await axios.post(url, newTweet);
-    //checking if newTweet was accepted and updating the new array
-    if(res.data){
-      setIsLoading(false)
-    //uodating the array localy to the server and on loed with useEffect on the first request
-    setTweets(updateTweets);
-    } 
-  }
-  catch  (err){setErrCatch(true)}
-
-  }
-
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userName));
+  }, [userName]);
   return (
     <div>
-      <TweetCreate url={url} onCreate={createTweet} onfetch={isLoading} onCatch={errCatch} />
-      <TweetList tweets={tweets} />
+      <BrowserRouter>
+        <Navigation />
+        <Routes>
+          <Route index element={<Home userName={userName} />} />
+          <Route path="profile" element={<UserProfile userName={userName} setUserName={setUserName}/>} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
-
 export default App;

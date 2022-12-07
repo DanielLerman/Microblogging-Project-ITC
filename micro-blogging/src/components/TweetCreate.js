@@ -41,18 +41,19 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
         }}
       />
       <div className="bottom-box ">
-        {isButtonDisabled ||
-          (onCatch && (
-            <Alert
-              className="chars-alert p-1 m-0 mx-3"
-              key={"danger"}
-              variant={"danger"}
-            >
-              {onCatch
-                ? "Could'nt Post"
-                : "The Tweet can't conatain more then 140 chars."}
-            </Alert>
-          ))}
+        {isButtonDisabled || onCatch ? (
+          <Alert
+            className="chars-alert p-1 m-0 mx-3"
+            key={"danger"}
+            variant={"danger"}
+          >
+            {onCatch
+              ? "Couldn't Post"
+              : "The Tweet can't conatain more then 140 chars."}
+          </Alert>
+        ) : (
+          ""
+        )}
         <div className="btn-position-helper"></div>
         <Button
           className="tweet-btn"
@@ -60,7 +61,7 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
           type="submit"
           disabled={isButtonDisabled}
         >
-          {onfetch || onCatch && (
+          {onfetch || onCatch ? (
             <Spinner
               as="span"
               animation="border"
@@ -68,8 +69,12 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
               role="status"
               aria-hidden="true"
             />
+          ) : (
+            " "
           )}
-          <span className={onfetch || onCatch && "visually-hidden"}>Tweet</span>
+          <span className={onfetch || onCatch ? "visually-hidden" : ""}>
+            Tweet
+          </span>
         </Button>{" "}
       </div>
     </form>

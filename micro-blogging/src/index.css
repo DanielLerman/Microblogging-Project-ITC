@@ -7,7 +7,8 @@ body {
   height: 100%;
   background-color: #15202b;
 }
-.text-area {
+.text-area,
+.user-text-area {
   width: 100%;
   resize: none;
   font-size: 16px;
@@ -18,7 +19,7 @@ body {
   outline: none;
 }
 .text-area::placeholder {
-  opacity: 0.5;
+  opacity: 0.8;
   color: white;
 }
 .chars-alert {
@@ -26,7 +27,8 @@ body {
   font-size: 12px;
   height: 1.8rem;
 }
-.tweet-create-box {
+.tweet-create-box,
+.user-box {
   margin-left: 25%;
   width: 50%;
   display: flex;
@@ -43,9 +45,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.bottom-box:hover {
-  cursor: pointer;
 }
 .tweet-btn {
   align-self: flex-end;
@@ -75,4 +74,52 @@ body {
 .tweetie-text {
   overflow-wrap: break-word;
   font-size: 0.8rem;
+}
+.nav {
+  background-color: #343a40;
+  display: flex;
+  width: 75%;
+  margin-left: 12%;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+ul a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 2.18rem;
+  height: 3.6rem;
+  text-align: center;
+  width: fit-content;
+  padding-top: 0.8rem;
+}
+a:hover,
+.active {
+  color: #fff;
+}
+
+#user-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.user-box {
+  width: 37.5rem;
+  border: none;
+}
+#user-input-title,
+#user-title {
+  align-self: flex-start;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+}
+#user-input-title {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+.user-text-area {
+  border: solid #cccccc;
+}
+.user-btn {
+  width: 4.25rem;
+  align-self: flex-end;
+  margin-top: 1rem;
 }
