@@ -1,14 +1,12 @@
-// import { useState, useEffect } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-
-function UserProfile({userName, setUserName}) {
-
+import TweetsContext from "../context/tweets";
+import {  useContext } from "react";
+function UserProfile() {
+  const { userName, setUserName } = useContext(TweetsContext);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    // onCreateUser(userName);
+    event.preventDefault()
     setUserName(userName);
-    console.log("this is th tweet ", userName);
   };
 
   return (

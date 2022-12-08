@@ -1,11 +1,15 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
+
 import TextareaAutosize from "react-textarea-autosize";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
+//
+import TweetsContext from "../context/tweets";
+function TweetCreate() {
+  const { createTweet,isLoading,  errCatch } = useContext(TweetsContext);
 
-function TweetCreate({ onCreate, onfetch, onCatch }) {
+
   const [text, setText] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   useEffect(() => {
@@ -16,12 +20,9 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onCreate(text);
+    createTweet(text);
     setText("");
-    console.log("this is th tweet ", text);
   };
-
-  console.log(onCatch);
 
   return (
     <form
@@ -41,13 +42,13 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
         }}
       />
       <div className="bottom-box ">
-        {isButtonDisabled || onCatch ? (
+        {isButtonDisabled || errCatch ? (
           <Alert
             className="chars-alert p-1 m-0 mx-3"
             key={"danger"}
             variant={"danger"}
           >
-            {onCatch
+            {errCatch
               ? "Couldn't Post"
               : "The Tweet can't conatain more then 140 chars."}
           </Alert>
@@ -61,7 +62,7 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
           type="submit"
           disabled={isButtonDisabled}
         >
-          {onfetch || onCatch ? (
+          {isLoading || errCatch ? (
             <Spinner
               as="span"
               animation="border"
@@ -72,7 +73,7 @@ function TweetCreate({ onCreate, onfetch, onCatch }) {
           ) : (
             " "
           )}
-          <span className={onfetch || onCatch ? "visually-hidden" : ""}>
+          <span className={isLoading || errCatch ? "visually-hidden" : ""}>
             Tweet
           </span>
         </Button>{" "}

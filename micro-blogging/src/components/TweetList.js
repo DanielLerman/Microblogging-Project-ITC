@@ -1,5 +1,10 @@
 import TweetShow from "./TweetShow";
-function TweetList({ tweets }) {
+
+//
+import TweetsContext from "../context/tweets";
+import {  useContext } from "react"; 
+function TweetList() {
+  const { tweets } = useContext(TweetsContext);
   //console.log(tweets);
   const renderedTweets = tweets.map((tweet) => {
     //  console.log(tweet);
@@ -9,7 +14,6 @@ function TweetList({ tweets }) {
       </div>
     );
   });
-  console.log(renderedTweets);
   return <div>{renderedTweets}</div>;
 }
 export default TweetList;

@@ -1,6 +1,3 @@
-// import { BrowserRouter , Route } from "react-router-dom";
-// import App from "../App"
-// import UserProfile from "./UserProfile"
 import { NavLink } from "react-router-dom";
 import React from "react";
 function Navigation() {
