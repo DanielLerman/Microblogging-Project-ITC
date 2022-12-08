@@ -6,9 +6,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import UserProfile from "./UserProfile";
 
-
-function Home({userName}) {
-  console.log("the new userName", userName)
+function Home({ userName }) {
+  console.log("the new userName", userName);
   const url = `https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet`;
   //every tweet created will be push to the array of tweet list
   const [tweets, setTweets] = useState([]);
@@ -42,7 +41,7 @@ function Home({userName}) {
         id,
         content: tweetContent,
         date: createdDate,
-        userName:userName,
+        userName: userName,
       };
       const updateTweets = [newTweet, ...tweets];
       const res = await axios.post(url, newTweet);
@@ -57,9 +56,9 @@ function Home({userName}) {
     }
   };
 
-  const onCreateUser=(userName)=>{
-    return 
-  }
+  const onCreateUser = (userName) => {
+    return;
+  };
 
   return (
     <div>
@@ -70,7 +69,6 @@ function Home({userName}) {
         onCatch={errCatch}
       />
       <TweetList tweets={tweets} />
-      <UserProfile onCreate={onCreateUser} />
     </div>
   );
 }
