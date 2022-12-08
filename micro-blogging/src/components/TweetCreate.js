@@ -1,4 +1,4 @@
-import { useState,useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import TextareaAutosize from "react-textarea-autosize";
 import Alert from "react-bootstrap/Alert";
@@ -7,8 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 //
 import TweetsContext from "../context/tweets";
 function TweetCreate() {
-  const { createTweet,isLoading,  errCatch } = useContext(TweetsContext);
-
+  const { createTweet, isLoading, errCatch } = useContext(TweetsContext);
 
   const [text, setText] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);

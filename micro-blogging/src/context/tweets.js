@@ -18,20 +18,16 @@ useEffect(() => {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userName));
 }, [userName]);
 
-    /////HOME PAGE FUNCTION
+
     const url = `https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet`;
     //every tweet created will be push to the array of tweet list
     const [tweets, setTweets] = useState([]);
-    //push state down to control spinner depended on the fetch
     const [isLoading, setIsLoading] = useState(false);
     const [errCatch, setErrCatch] = useState(false);
   
-    ///
     const getAllTweets = () => {
       setIsLoading(true);
-
       axios.get(url).then((data) => {
-        console.log(data.data);
           setTweets(data.data.tweets);
         setIsLoading(false);
       });
@@ -47,7 +43,6 @@ useEffect(() => {
     }, []);
   
 
-    /////ONCREATE FUNCTION-->TWEETCREATE
     //user's creation--> enter to array
     const createTweet = async (tweetContent) => {
       try {
@@ -71,9 +66,12 @@ useEffect(() => {
           setTweets(updateTweets);
         }
       } catch (err) {
+       
         setErrCatch(true);
+        setIsLoading(false);
       }
     };
+
   
   const valueToShere={
     createTweet,
@@ -82,6 +80,7 @@ useEffect(() => {
     isLoading,
     errCatch,
     tweets,
+   
   }
 
     return(
