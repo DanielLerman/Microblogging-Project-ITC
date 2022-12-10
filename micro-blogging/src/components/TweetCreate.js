@@ -61,7 +61,7 @@ function TweetCreate() {
           type="submit"
           disabled={isButtonDisabled}
         >
-          {isLoading || errCatch ? (
+          {isLoading ? (
             <Spinner
               as="span"
               animation="border"
@@ -72,7 +72,7 @@ function TweetCreate() {
           ) : (
             " "
           )}
-          <span className={isLoading || errCatch ? "visually-hidden" : ""}>
+          <span className={isLoading ? "visually-hidden" : ""}>
             Tweet
           </span>
         </Button>{" "}
