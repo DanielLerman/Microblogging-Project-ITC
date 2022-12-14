@@ -1,94 +1,107 @@
-// import React from 'react'
-import { createContext, useState, useEffect } from 'react'
-import axios from "axios";
-import uuid from "react-uuid";
 
-const TweetsContext=createContext();
+import { createContext, useState } from "react";
+import { collection, addDoc, getDocs , onSnapshot, query} from "firebase/firestore";
+import { db, auth } from "../firebaseConfig/firebase";
 
-function Provider ({children}){ 
-///APP
-const LOCAL_STORAGE_KEY = "tweets";
-const [userName, setUserName] = useState(
-  localStorage.getItem(LOCAL_STORAGE_KEY)
-    ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    : " "
-);
+const TweetsContext = createContext();
 
-useEffect(() => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userName));
-}, [userName]);
-
-
-    const url = `https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet`;
-    //every tweet created will be push to the array of tweet list
-    const [tweets, setTweets] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [errCatch, setErrCatch] = useState(false);
-  
-    const getAllTweets = () => {
+function Provider({ children }) {
+  //every tweet created will be push to the array of tweet list
+  const [tweets, setTweets] = useState([]);
+  //control access
+  const [currentUser, setCurrentUser] = useState(false);
+  //spineer
+  const [isLoading, setIsLoading] = useState(false);
+  //fetch
+  const [errCatch, setErrCatch] = useState(false);
+  //user info when signed
+  const [userInfo, setUserInfo] = useState({
+    userName: "",
+    email: "",
+    password: "",
+    repassword: "",
+    id: "",
+  });
+  //url state
+  const [profileImgUrl, setProfileImgUrl] = useState(null);
+  //user's creation--> enter to array
+  const createTweet = async (tweetContent) => {
+    try {
       setIsLoading(true);
-      axios.get(url).then((data) => {
-          setTweets(data.data.tweets);
-        setIsLoading(false);
-      });
-      
-    };
-    //making a request once when page load
-    useEffect(() => {
-      getAllTweets();
-      const interval = setInterval(() => {
-        getAllTweets();
-      }, 5000);
-      return () => clearInterval(interval);
-    }, []);
-  
+      setErrCatch(false);
+      const createdDate = new Date().toISOString();
+      //new tweet created at home page assigning the signed user id
+      const newTweet = {
+        content: tweetContent,
+        date: createdDate,
+        id: auth.currentUser.uid,
+      };
+     
+      //adding the new tweet to the collection
+      addDoc(collection(db, "tweets"), newTweet);
+   
+      //adding the new tweet to the state
+      const updateTweets = [newTweet, ...tweets];
+      setIsLoading(false);
+      setTweets(updateTweets);
+    } catch (err) {
+      console.log(err);
+      setErrCatch(true);
+      setIsLoading(false);
+    }
+  };
 
-    //user's creation--> enter to array
-    const createTweet = async (tweetContent) => {
-      try {
-        setIsLoading(true);
-        setErrCatch(false);
-        const id = uuid();
-  
-        const createdDate = new Date().toISOString();
-        const newTweet = {
-          id,
-          content: tweetContent,
-          date: createdDate,
-          userName: userName,
+  //fetch on load pass to app 
+  const getAllTweets = async () => {
+    try {
+      //get a ref from collection 
+      const allTweetsSnapshot = await getDocs(collection(db, "tweets"));
+      //mapping to add the tweets is and the user name data of chosen
+      const allTweets = allTweetsSnapshot.docs.map((tweet) => {
+        const newTweetWithId = {
+          ...tweet.data(),
+          tweetId: tweet.id,
+          userName: tweet.data().userName,
         };
-        const updateTweets = [newTweet, ...tweets];
-        const res = await axios.post(url, newTweet);
-        //checking if newTweet was accepted and updating the new array
-        if (res.data) {
-          setIsLoading(false);
-          //uodating the array localy to the server and on loed with useEffect on the first request
-          setTweets(updateTweets);
-        }
-      } catch (err) {
-       
-        setErrCatch(true);
-        setIsLoading(false);
-      }
-    };
+        return newTweetWithId;
+      });
 
-  
-  const valueToShere={
+      setTweets(allTweets);
+    } catch (err) {console.log(err)}
+  };
+
+  //diff tabs conection 
+  const listenForChanges=()=>{
+    const q=query(collection(db, "tweets"))
+    onSnapshot(q ,(querySnap)=>{
+      const tweetsArray=querySnap.docs.map(tweetQuery=>{
+        return {...tweetQuery.data(), tweetId: tweetQuery.id}
+      });
+      setTweets(tweetsArray)
+    })
+
+  }
+
+  const valueToShere = {
     createTweet,
-    userName,
-    setUserName,
     isLoading,
     errCatch,
     tweets,
-   
-  }
+    getAllTweets,
+    setCurrentUser,
+    currentUser,
+    userInfo,
+    setUserInfo,
+    listenForChanges,
+    profileImgUrl,
+     setProfileImgUrl,
+  };
 
-    return(
-        <TweetsContext.Provider value={valueToShere}>
-            {children}
-        </TweetsContext.Provider>
-    )
-    
+  return (
+    <TweetsContext.Provider value={valueToShere}>
+      {children}
+    </TweetsContext.Provider>
+  );
 }
-export {Provider};
+export { Provider };
 export default TweetsContext;

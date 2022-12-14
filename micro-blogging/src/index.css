@@ -18,7 +18,7 @@ body {
   color: white;
   outline: none;
 }
-.text-area::placeholder {
+.text-area::placeholder  {
   opacity: 0.8;
   color: white;
 }
@@ -28,7 +28,8 @@ body {
   height: 1.8rem;
 }
 .tweet-create-box,
-.user-box {
+.user-box,
+.signUp {
   margin-left: 25%;
   width: 50%;
   display: flex;
@@ -74,6 +75,8 @@ body {
 .tweetie-text {
   overflow-wrap: break-word;
   font-size: 0.8rem;
+  margin-top:0.8rem;
+  margin-left: 2.5rem;
 }
 .nav {
   background-color: #343a40;
@@ -82,6 +85,7 @@ body {
   margin-left: 12%;
   margin-bottom: 2rem;
   align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 ul a {
   text-decoration: none;
@@ -102,8 +106,10 @@ a:hover,
   font-weight: bold;
 }
 .user-box {
-  width: 40%;
+  width: 50%;
   border: none;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  padding: 3rem;
 }
 #user-input-title,
 #user-title {
@@ -122,4 +128,85 @@ a:hover,
   width: 4.25rem;
   align-self: flex-end;
   margin-top: 1rem;
+}
+.signUp {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  border: none;
+  padding: 2rem;
+ 
+}
+.signUp-welcome, .login-title{
+  font-family: "Roboto", sans-serif;
+  color: #cbfeff;
+  font-weight: bolder;
+  margin: 0;
+  letter-spacing: 0.2rem;
+  text-shadow: 2px 2px  #343a40;
+}
+.signUp-mini-title{ 
+margin-bottom: 1rem;
+  color: #cbfeff;
+  font-size: 0.8rem;
+ 
+
+}
+.signUp input {
+  margin-bottom: 0.8rem;
+  padding: 0.2rem;
+  background-color: #15202b;
+border:none;
+border-bottom: solid #c0c2ce;
+  color: aliceblue;
+  width: 75%;
+
+}
+.signUp input::placeholder{
+  font-size: 0.8rem;
+}
+.signUp input:focus{
+  border: none;
+}
+.signUp-confirm{
+  color: #a2bbce;
+  
+  
+  margin-top: 0.5rem;
+
+}
+.signUp button {
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  width: 75%;
+}
+.google-button{
+  
+}
+.profile-img{
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+  border-radius:  50%;
+}
+.upload-img-box{
+  display:flex;
+  margin-top: 2rem;
+
+}
+.upload-img-input{
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.upload-img-input[type="file"]:hover{
+cursor: pointer;
+  
+}
+.upload-submit{
+  width: 50%;
+  font-size: 0.8rem;
+  letter-spacing: 0.01rem;
+}
+.user-info{
+  display: flex;
+
 }

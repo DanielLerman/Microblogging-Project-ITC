@@ -1,16 +1,17 @@
 import { useState, useEffect, useContext } from "react";
-
 import TextareaAutosize from "react-textarea-autosize";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
-//
 import TweetsContext from "../context/tweets";
-function TweetCreate() {
-  const { createTweet, isLoading, errCatch } = useContext(TweetsContext);
 
+function TweetCreate() {
+  const {  createTweet ,isLoading, errCatch } = useContext(TweetsContext);
+  //comp states 
   const [text, setText] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  //truck text val
   useEffect(() => {
     text.length === 140
       ? setIsButtonDisabled(true)
@@ -60,6 +61,7 @@ function TweetCreate() {
           variant="primary"
           type="submit"
           disabled={isButtonDisabled}
+        
         >
           {isLoading ? (
             <Spinner
@@ -72,9 +74,7 @@ function TweetCreate() {
           ) : (
             " "
           )}
-          <span className={isLoading ? "visually-hidden" : ""}>
-            Tweet
-          </span>
+          <span className={isLoading ? "visually-hidden" : ""}>Tweet</span>
         </Button>{" "}
       </div>
     </form>
